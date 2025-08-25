@@ -9,27 +9,19 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 from dotenv import load_dotenv
+from seleniumbase import Driver
 
 class LinkedInBrowser:
     
     
     def __init__(self):
-        # Configure Chrome options
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument("--start-maximized")
-        self.chrome_options.add_argument("--disable-notifications")
-
         self.profile_pic_selector = (By.CSS_SELECTOR, "button[aria-label='open profile picture'] img.pv-top-card-profile-picture__image--show")
         self.login_validation_selector = (By.CSS_SELECTOR, "svg.mercado-match[data-supported-dps='24x24']")
         
-        # Automatically install and configure ChromeDriver
-        self.service = Service(ChromeDriverManager().install())
-        
-        # Initialize WebDriver with error handling
         try:
-            self.driver = webdriver.Chrome(
-                service=self.service,
-                options=self.chrome_options
+            self.driver = Driver(
+                uc=True,
+                headless=True,
             )
             self.driver.get("https://www.linkedin.com/login")
         except Exception as e:
